@@ -8,7 +8,7 @@ jobs:
       - run:
           command: | # create venv
             mkdir -p $HOME/.envs    
-            python -m venv $HOME/.envs/tesenv
+            python -m venv $HOME/.envs/testenv
             source $HOME/.envs/testenv/bin/activate
       - run:
           command: | # install deps and run tests
