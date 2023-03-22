@@ -7,8 +7,9 @@ jobs:
       - checkout # checkout source code to working directory
       - run:
           command: | # create venv
-            python -m venv /var/testenv
-            source /var/testenv/bin/activate
+            mkdir -p           
+            python -m venv $HOME/.envs/tesenv
+            source $HOME/.envs/testenv/bin/activate
       - run:
           command: | # install deps and run tests
             ls -la
