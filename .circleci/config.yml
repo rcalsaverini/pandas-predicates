@@ -7,7 +7,7 @@ jobs:
       - checkout # checkout source code to working directory
       - run:
           command: | # create venv
-            mkdir -p           
+            mkdir -p $HOME/.envs    
             python -m venv $HOME/.envs/tesenv
             source $HOME/.envs/testenv/bin/activate
       - run:
