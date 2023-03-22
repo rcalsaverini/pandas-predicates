@@ -1,0 +1,55 @@
+﻿version: 2.1
+jobs:
+  build_test:
+    docker:
+      - image: cimg/python:3.11.0
+    steps:
+      - checkout # checkout source code to working directory
+      - run:
+          command: | # create venv, install deps and run tests
+            python -m venv testenv
+            source testenv/bin/activate
+            pip install -e .[test]
+            pytest --fulltrace
+  test_pypi_publish:
+    docker:
+      - image: cimg/python:3.11.0
+    steps:
+      - checkout # checkout source code to working directory
+      - run:
+          command: | # create whl, install twine and publish to Test PyPI
+            python -m venv testenv
+            source testenv/bin/activate
+            pip install setuptools build twine
+            python -m build
+            twine upload --repository testpypi dist/*
+  pypi_publish:
+    docker:
+      - image: cimg/python:3.11.0
+    steps:
+      - checkout # checkout source code to working directory
+      - run:
+          command: | # create whl, install twine and publish to PyPI
+            python -m venv testenv
+            source testenv/bin/activate
+            pip install setuptools build twine
+            python -m build
+            twine upload dist/*
+workflows:
+  build_test_publish:
+    jobs:
+      - build_test
+      - test_pypi_publish:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - develop
+      - pypi_publish:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - main
