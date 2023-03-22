@@ -12,7 +12,6 @@ jobs:
             source $HOME/.envs/testenv/bin/activate
       - run:
           command: | # install deps and run tests
-            ls -la
             pip install -e .[test]
             pytest --fulltrace
   test_pypi_publish:
@@ -22,8 +21,9 @@ jobs:
       - checkout # checkout source code to working directory
       - run:
           command: | # create venv
-            python -m venv testenv
-            source testenv/bin/activate
+            mkdir -p $HOME/.envs    
+            python -m venv $HOME/.envs/testenv
+            source $HOME/.envs/testenv/bin/activate
       - run:
           command: | # create whl, install twine and publish to Test PyPI
             pip install setuptools build twine
@@ -36,8 +36,9 @@ jobs:
       - checkout # checkout source code to working directory
       - run:
           command: | # create venv
-            python -m venv testenv
-            source testenv/bin/activate
+            mkdir -p $HOME/.envs    
+            python -m venv $HOME/.envs/testenv
+            source $HOME/.envs/testenv/bin/activate
       - run:
           command: | # create whl, install twine and publish to Test PyPI
             cd pandas_predicates
