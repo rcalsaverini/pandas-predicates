@@ -6,9 +6,12 @@ jobs:
     steps:
       - checkout # checkout source code to working directory
       - run:
-          command: | # create venv, install deps and run tests
+          command: | # create venv
             python -m venv testenv
             source testenv/bin/activate
+      - run:
+          command | # install deps and run tests
+            cd pandas_predicates
             pip install -e .[test]
             pytest --fulltrace
   test_pypi_publish:
@@ -17,9 +20,12 @@ jobs:
     steps:
       - checkout # checkout source code to working directory
       - run:
-          command: | # create whl, install twine and publish to Test PyPI
+          command: | # create venv
             python -m venv testenv
             source testenv/bin/activate
+      - run:
+          command: | # create whl, install twine and publish to Test PyPI
+            cd pandas_predicates
             pip install setuptools build twine
             python -m build
             twine upload --repository testpypi dist/*
@@ -29,9 +35,12 @@ jobs:
     steps:
       - checkout # checkout source code to working directory
       - run:
-          command: | # create whl, install twine and publish to PyPI
+          command: | # create venv
             python -m venv testenv
             source testenv/bin/activate
+      - run:
+          command: | # create whl, install twine and publish to Test PyPI
+            cd pandas_predicates
             pip install setuptools build twine
             python -m build
             twine upload dist/*
