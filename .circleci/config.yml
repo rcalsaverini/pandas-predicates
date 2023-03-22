@@ -12,6 +12,7 @@ jobs:
       - run:
           command: | # install deps and run tests
             cd pandas_predicates
+            ls -la
             pip install -e .[test]
             pytest --fulltrace
   test_pypi_publish:
